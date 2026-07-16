@@ -1,0 +1,966 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<style>
+@page {
+    size: A4;
+    margin: 20mm 15mm;
+    @bottom-right {
+        content: counter(page);
+        font-size: 9pt;
+        font-family: 'Liberation Sans', sans-serif;
+        color: #777;
+    }
+    @bottom-left {
+        content: "Машинное обучение в деталях (Часть I, Главы 1–29) — Эндрю Нг";
+        font-size: 9pt;
+        font-family: 'Liberation Sans', sans-serif;
+        color: #777;
+    }
+}
+
+body {
+    font-family: 'Liberation Serif', 'Times New Roman', serif;
+    font-size: 11.5pt;
+    line-height: 1.6;
+    color: #2c3e50;
+    margin: 0;
+    padding: 0;
+}
+
+h1, h2, h3, h4 {
+    font-family: 'Liberation Sans', sans-serif;
+    color: #1a365d;
+    page-break-after: avoid;
+}
+
+h1 {
+    font-size: 26pt;
+    text-align: center;
+    margin-top: 35mm;
+    margin-bottom: 5mm;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.subtitle {
+    font-size: 14pt;
+    text-align: center;
+    margin-bottom: 15mm;
+    color: #4a5568;
+    font-style: italic;
+}
+
+.author {
+    font-size: 18pt;
+    text-align: center;
+    font-weight: bold;
+    margin-top: 20mm;
+    color: #2b6cb0;
+}
+
+.publisher {
+    font-size: 11pt;
+    text-align: center;
+    margin-top: 35mm;
+    color: #718096;
+}
+
+.toc-title {
+    font-size: 18pt;
+    margin-bottom: 8mm;
+    border-bottom: 2px solid #2b6cb0;
+    padding-bottom: 5px;
+    color: #1a365d;
+}
+
+.toc-list {
+    margin-left: 0;
+    padding-left: 0;
+    list-style: none;
+    font-family: 'Liberation Sans', sans-serif;
+    font-size: 10pt;
+}
+
+.toc-item {
+    display: table;
+    width: 100%;
+    margin-bottom: 4px;
+}
+
+.toc-name {
+    display: table-cell;
+    text-align: left;
+}
+
+.toc-dots {
+    display: table-cell;
+    border-bottom: 1px dotted #cbd5e0;
+}
+
+.toc-page {
+    display: table-cell;
+    text-align: right;
+    width: 35px;
+    font-weight: bold;
+    padding-left: 5px;
+}
+
+.section-header {
+    page-break-before: always;
+    margin-top: 35mm;
+    text-align: center;
+    border-top: 3px solid #2b6cb0;
+    border-bottom: 3px solid #2b6cb0;
+    padding: 15mm 0;
+}
+
+.section-header h2 {
+    font-size: 20pt;
+    color: #1a365d;
+    margin: 0;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.chapter-title {
+    page-break-before: always;
+    font-size: 16pt;
+    color: #2b6cb0;
+    border-bottom: 1px solid #e2e8f0;
+    padding-bottom: 5px;
+    margin-top: 10mm;
+    margin-bottom: 6mm;
+}
+
+.chapter-num {
+    font-size: 11pt;
+    color: #718096;
+    text-transform: uppercase;
+    font-weight: bold;
+    letter-spacing: 1px;
+    margin-bottom: 2px;
+}
+
+p {
+    margin-bottom: 4mm;
+    text-align: justify;
+    text-indent: 8mm;
+    margin-top: 0;
+}
+
+p.no-indent {
+    text-indent: 0;
+}
+
+ul, ol {
+    margin-top: 2mm;
+    margin-bottom: 4mm;
+    padding-left: 8mm;
+}
+
+li {
+    margin-bottom: 2mm;
+    text-align: justify;
+}
+
+.math {
+    font-family: 'Liberation Serif', 'Times New Roman', serif;
+    font-style: italic;
+    font-weight: bold;
+    color: #2c5282;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 5mm;
+    margin-bottom: 5mm;
+    font-size: 10.5pt;
+    font-family: 'Liberation Sans', sans-serif;
+}
+
+th, td {
+    border: 1px solid #cbd5e0;
+    padding: 8px 12px;
+}
+
+th {
+    background-color: #ebf8ff;
+    color: #2b6cb0;
+    font-weight: bold;
+    text-align: left;
+}
+
+tr:nth-child(even) {
+    background-color: #f7fafc;
+}
+
+.callout {
+    background-color: #f7fafc;
+    border-left: 4px solid #2b6cb0;
+    padding: 12px 18px;
+    margin: 5mm 0;
+    font-style: italic;
+}
+
+.img-container {
+    text-align: center;
+    margin: 6mm 0;
+    page-break-inside: avoid;
+}
+
+.img-container img {
+    max-width: 85%;
+    height: auto;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+}
+
+.note {
+    font-size: 9pt;
+    color: #718096;
+    border-top: 1px solid #e2e8f0;
+    margin-top: 8mm;
+    padding-top: 2mm;
+}
+
+</style>
+</head>
+<body>
+
+<!-- ТИТУЛЬНЫЙ ЛИСТ -->
+<div style="page-break-after: always; text-align: center;">
+    <div class="img-container" style="margin-top: 10mm; border: none;">
+        <img src="extracted_images/img_p1_Im1.png" style="max-width: 65%; border: none; box-shadow: none;">
+    </div>
+    <h1>Машинное обучение в деталях</h1>
+    <div class="subtitle">Техническая стратегия для инженеров в области ИИ в эпоху глубокого обучения</div>
+    <div class="author">Эндрю Нг</div>
+    <div class="publisher">
+        <img src="extracted_images/img_p2_Im0.png" style="max-width: 25%; border: none; box-shadow: none; margin-bottom: 10mm;"><br>
+        Проект DeepLearning.AI<br>
+        Полный перевод первой половины книги (Главы 1–29)<br>
+        © 2018 Andrew Ng. Все права защищены.
+    </div>
+</div>
+
+<!-- ОГЛАВЛЕНИЕ -->
+<div style="page-break-after: always;">
+    <div class="toc-title">Оглавление (Полная книга, Главы 1–58)</div>
+    <div class="toc-list">
+        <div class="toc-item"><span class="toc-name">1 Почему важна стратегия машинного обучения</span><span class="toc-dots"></span><span class="toc-page">4</span></div>
+        <div class="toc-item"><span class="toc-name">2 Как использовать эту книгу, чтобы помочь вашей команде</span><span class="toc-dots"></span><span class="toc-page">5</span></div>
+        <div class="toc-item"><span class="toc-name">3 Предварительные требования и обозначения</span><span class="toc-dots"></span><span class="toc-page">6</span></div>
+        <div class="toc-item"><span class="toc-name">4 Масштаб как двигатель прогресса в машинном обучении</span><span class="toc-dots"></span><span class="toc-page">7</span></div>
+        <div class="toc-item" style="margin-top: 2mm; font-weight: bold; color: #1a365d;"><span class="toc-name">Настройка выборок для разработки (dev) и тестирования (test)</span><span class="toc-dots"></span><span class="toc-page">9</span></div>
+        <div class="toc-item"><span class="toc-name">5 Ваши выборки для разработки и тестирования</span><span class="toc-dots"></span><span class="toc-page">10</span></div>
+        <div class="toc-item"><span class="toc-name">6 Выборки dev и test должны приходить из одного распределения</span><span class="toc-dots"></span><span class="toc-page">12</span></div>
+        <div class="toc-item"><span class="toc-name">7 Насколько большими должны быть выборки dev/test?</span><span class="toc-dots"></span><span class="toc-page">14</span></div>
+        <div class="toc-item"><span class="toc-name">8 Установите единую числовую метрику оценки для оптимизации</span><span class="toc-dots"></span><span class="toc-page">15</span></div>
+        <div class="toc-item"><span class="toc-name">9 Оптимизирующие и удовлетворяющие метрики</span><span class="toc-dots"></span><span class="toc-page">17</span></div>
+        <div class="toc-item"><span class="toc-name">10 Наличие dev-выборки и метрики ускоряет итерации</span><span class="toc-dots"></span><span class="toc-page">19</span></div>
+        <div class="toc-item"><span class="toc-name">11 Когда следует менять dev/test выборки и метрики</span><span class="toc-dots"></span><span class="toc-page">20</span></div>
+        <div class="toc-item"><span class="toc-name">12 Ключевые выводы: Настройка dev- и test-выборок</span><span class="toc-dots"></span><span class="toc-page">22</span></div>
+        <div class="toc-item" style="margin-top: 2mm; font-weight: bold; color: #1a365d;"><span class="toc-name">Базовый анализ ошибок</span><span class="toc-dots"></span><span class="toc-page">23</span></div>
+        <div class="toc-item"><span class="toc-name">13 Быстро постройте первую систему, затем переходите к итерациям</span><span class="toc-dots"></span><span class="toc-page">24</span></div>
+        <div class="toc-item"><span class="toc-name">14 Анализ ошибок: Изучение примеров из dev-выборки для оценки идей</span><span class="toc-dots"></span><span class="toc-page">25</span></div>
+        <div class="toc-item"><span class="toc-name">15 Параллельная оценка нескольких идей при анализе ошибок</span><span class="toc-dots"></span><span class="toc-page">27</span></div>
+        <div class="toc-item"><span class="toc-name">16 Очистка неверно размеченных примеров в dev- и test-выборках</span><span class="toc-dots"></span><span class="toc-page">29</span></div>
+        <div class="toc-item"><span class="toc-name">17 При большой dev-выборке разделите ее на две части: визуальную и скрытую</span><span class="toc-dots"></span><span class="toc-page">31</span></div>
+        <div class="toc-item"><span class="toc-name">18 Какого размера должны быть визуальная (Eyeball) и скрытая (Blackbox) выборки?</span><span class="toc-dots"></span><span class="toc-page">33</span></div>
+        <div class="toc-item"><span class="toc-name">19 Ключевые выводы: Базовый анализ ошибок</span><span class="toc-dots"></span><span class="toc-page">34</span></div>
+        <div class="toc-item" style="margin-top: 2mm; font-weight: bold; color: #1a365d;"><span class="toc-name">Смещение и дисперсия</span><span class="toc-dots"></span><span class="toc-page">35</span></div>
+        <div class="toc-item"><span class="toc-name">20 Смещение и дисперсия: два главных источника ошибок</span><span class="toc-dots"></span><span class="toc-page">36</span></div>
+        <div class="toc-item"><span class="toc-name">21 Примеры смещения и дисперсии</span><span class="toc-dots"></span><span class="toc-page">38</span></div>
+        <div class="toc-item"><span class="toc-name">22 Сравнение с оптимальным уровнем ошибки</span><span class="toc-dots"></span><span class="toc-page">39</span></div>
+        <div class="toc-item"><span class="toc-name">23 Борьба со смещением и дисперсией</span><span class="toc-dots"></span><span class="toc-page">41</span></div>
+        <div class="toc-item"><span class="toc-name">24 Компромисс между смещением и дисперсией</span><span class="toc-dots"></span><span class="toc-page">42</span></div>
+        <div class="toc-item"><span class="toc-name">25 Методы снижения устранимого смещения</span><span class="toc-dots"></span><span class="toc-page">43</span></div>
+        <div class="toc-item"><span class="toc-name">26 Анализ ошибок на обучающей выборке</span><span class="toc-dots"></span><span class="toc-page">44</span></div>
+        <div class="toc-item"><span class="toc-name">27 Методы снижения дисперсии</span><span class="toc-dots"></span><span class="toc-page">45</span></div>
+        <div class="toc-item" style="margin-top: 2mm; font-weight: bold; color: #1a365d;"><span class="toc-name">Кривые обучения</span><span class="toc-dots"></span><span class="toc-page">46</span></div>
+        <div class="toc-item"><span class="toc-name">28 Диагностика смещения и дисперсии: Кривые обучения</span><span class="toc-dots"></span><span class="toc-page">47</span></div>
+        <div class="toc-item"><span class="toc-name">29 Построение кривой ошибки на обучении</span><span class="toc-dots"></span><span class="toc-page">49</span></div>
+
+        <div class="toc-item" style="margin-top: 2mm; font-weight: bold; color: #1a365d;"><span class="toc-name">Сравнение с уровнем человеческого качества</span><span class="toc-dots"></span><span class="toc-page">37</span></div>
+        <div class="toc-item"><span class="toc-name">30 Интерпретация кривых обучения: Высокое смещение</span><span class="toc-dots"></span><span class="toc-page">38</span></div>
+        <div class="toc-item"><span class="toc-name">31 Другие случаи интерпретации кривых</span><span class="toc-dots"></span><span class="toc-page">38</span></div>
+        <div class="toc-item"><span class="toc-name">32 Практические аспекты построения кривых обучения</span><span class="toc-dots"></span><span class="toc-page">39</span></div>
+        <div class="toc-item"><span class="toc-name">33 Почему мы сравниваем успехи моделей с человеком</span><span class="toc-dots"></span><span class="toc-page">40</span></div>
+        <div class="toc-item"><span class="toc-name">34 Как определить уровень человеческого качества</span><span class="toc-dots"></span><span class="toc-page">40</span></div>
+        <div class="toc-item"><span class="toc-name">35 Превосходство над человеком</span><span class="toc-dots"></span><span class="toc-page">41</span></div>
+        <div class="toc-item" style="margin-top: 2mm; font-weight: bold; color: #1a365d;"><span class="toc-name">Обучение и тестирование на различных распределениях</span><span class="toc-dots"></span><span class="toc-page">42</span></div>
+        <div class="toc-item"><span class="toc-name">36 Сценарии несовпадения распределений</span><span class="toc-dots"></span><span class="toc-page">43</span></div>
+        <div class="toc-item"><span class="toc-name">37 Стоит ли использовать все доступные данные</span><span class="toc-dots"></span><span class="toc-page">43</span></div>
+        <div class="toc-item"><span class="toc-name">38 Проблема противоречивых данных</span><span class="toc-dots"></span><span class="toc-page">44</span></div>
+        <div class="toc-item"><span class="toc-name">39 Взвешивание данных при обучении</span><span class="toc-dots"></span><span class="toc-page">44</span></div>
+        <div class="toc-item"><span class="toc-name">40 Обобщение с обучения на dev-выборку</span><span class="toc-dots"></span><span class="toc-page">45</span></div>
+        <div class="toc-item"><span class="toc-name">41 Идентификация типов ошибок и несоответствия данных</span><span class="toc-dots"></span><span class="toc-page">45</span></div>
+        <div class="toc-item"><span class="toc-name">42 Способы преодоления data mismatch</span><span class="toc-dots"></span><span class="toc-page">46</span></div>
+        <div class="toc-item"><span class="toc-name">43 Искусственный синтез данных</span><span class="toc-dots"></span><span class="toc-page">46</span></div>
+        <div class="toc-item" style="margin-top: 2mm; font-weight: bold; color: #1a365d;"><span class="toc-name">Отладка алгоритмов логического вывода</span><span class="toc-dots"></span><span class="toc-page">47</span></div>
+        <div class="toc-item"><span class="toc-name">44 Тест верификации оптимизации</span><span class="toc-dots"></span><span class="toc-page">48</span></div>
+        <div class="toc-item"><span class="toc-name">45 Общая форма теста верификации</span><span class="toc-dots"></span><span class="toc-page">48</span></div>
+        <div class="toc-item"><span class="toc-name">46 Применение в обучении с подкреплением</span><span class="toc-dots"></span><span class="toc-page">49</span></div>
+        <div class="toc-item" style="margin-top: 2mm; font-weight: bold; color: #1a365d;"><span class="toc-name">Сквозное глубокое обучение</span><span class="toc-dots"></span><span class="toc-page">50</span></div>
+        <div class="toc-item"><span class="toc-name">47 Становление сквозного обучения</span><span class="toc-dots"></span><span class="toc-page">51</span></div>
+        <div class="toc-item"><span class="toc-name">48 Дополнительные примеры сквозных систем</span><span class="toc-dots"></span><span class="toc-page">51</span></div>
+        <div class="toc-item"><span class="toc-name">49 Плюсы и минусы сквозного подхода</span><span class="toc-dots"></span><span class="toc-page">52</span></div>
+        <div class="toc-item"><span class="toc-name">50 Выбор компонентов пайплайна: Доступность данных</span><span class="toc-dots"></span><span class="toc-page">53</span></div>
+        <div class="toc-item"><span class="toc-name">51 Выбор компонентов пайплайна: Простота подзадач</span><span class="toc-dots"></span><span class="toc-page">53</span></div>
+        <div class="toc-item"><span class="toc-name">52 Прямое обучение сложным комплексным выходам</span><span class="toc-dots"></span><span class="toc-page">54</span></div>
+        <div class="toc-item" style="margin-top: 2mm; font-weight: bold; color: #1a365d;"><span class="toc-name">Покомпонентный анализ ошибок пайплайна</span><span class="toc-dots"></span><span class="toc-page">55</span></div>
+        <div class="toc-item"><span class="toc-name">53 Анализ ошибок по частям системы</span><span class="toc-dots"></span><span class="toc-page">56</span></div>
+        <div class="toc-item"><span class="toc-name">54 Точное приписывание вины конкретному модулю</span><span class="toc-dots"></span><span class="toc-page">56</span></div>
+        <div class="toc-item"><span class="toc-name">55 Общий случай покомпонентного анализа ошибок</span><span class="toc-dots"></span><span class="toc-page">57</span></div>
+        <div class="toc-item"><span class="toc-name">56 Сравнение компонентов с человеческим уровнем</span><span class="toc-dots"></span><span class="toc-page">57</span></div>
+        <div class="toc-item"><span class="toc-name">57 Как обнаружить фундаментальные дефекты архитектуры пайплайна</span><span class="toc-dots"></span><span class="toc-page">58</span></div>
+        <div class="toc-item"><span class="toc-name">58 Построение команды супергероев</span><span class="toc-dots"></span><span class="toc-page">59</span></div>
+    </div>
+</div>
+
+<!-- ГЛАВЫ 1 - 29 -->
+<div class="chapter-title"><div class="chapter-num">Глава 1</div>Why Machine Learning Strategy / Почему важна стратегия машинного обучения</div>
+<p>Машинное обучение лежит в основе огромного количества важнейших современных приложений, таких как веб-поиск, защита от спама, распознавание речи, рекомендательные системы и многие другие. Я предполагаю, что вы или ваша команда сейчас работаете над таким приложением и стремитесь достичь быстрого прогресса. Эта книга призвана помочь вам в этом.</p>
+<h3>Пример: Создание стартапа с фотографиями кошек</h3>
+<p>Представьте, что вы запускаете стартап, который будет радовать любителей кошек бесконечным потоком их фотографий. Для обнаружения кошек на изображениях вы решаете использовать нейросеть, построив систему компьютерного зрения. Однако точность вашего алгоритма пока оставляет желать лучшего. На вас оказывается колоссальное давление с целью как можно быстрее доработать детектор кошек. Что вы предпримете?</p>
+<div class="img-container">
+    <img src="extracted_images/img_p6_Im0.png">
+</div>
+<p class="no-indent">У вашей команды масса идей, например:</p>
+<ul>
+    <li>Собрать больше данных: найти дополнительные фотографии кошек.</li>
+    <li>Собрать более разнообразную обучающую выборку. Например, фотографии кошек в необычных позах, кошек редкого окраса, а также снимки, сделанные с различными настройками камеры.</li>
+    <li>Обучать алгоритм дольше, выполнив большее количество итераций градиентного спуска.</li>
+    <li>Использовать более крупную нейросеть (с большим числом слоев, скрытых нейронов или параметров).</li>
+    <li>Попробовать уменьшить размер нейросети.</li>
+    <li>Добавить регуляризацию (например, L2-регуляризацию).</li>
+    <li>Изменить архитектуру нейросети (функцию активации, количество скрытых блоков и т.д.).</li>
+</ul>
+<p>Если вы выберете правильное направление среди этих вариантов, вы создадите лучшую платформу с картинками кошек и приведете компанию к успеху. Ошибившись, вы рискуете впустую потратить месяцы работы. Как поступить?</p>
+<p>Эта книга ответит на данный вопрос. Большинство проблем в машинном обучении оставляют определенные зацепки, которые указывают на то, какие шаги принесут пользу, а какие окажутся бесполезными. Научившись распознавать эти подсказки, вы сэкономите месяцы или даже годы драгоценного времени разработки.</p>
+
+<div class="chapter-title"><div class="chapter-num">Глава 2</div>How to use this book to help your team / Как использовать эту книгу для помощи команде</div>
+<p>Прочитав эту книгу, вы получите глубокое понимание того, как определять техническое направление развития проектов в области машинного обучения.</p>
+<p>Однако ваши коллеги могут не сразу понять, почему вы рекомендуете именно этот путь. Например, вы хотите внедрить единую числовую метрику оценки работы алгоритма, а команда не до конца уверена в целесообразности этого шага. Как их убедить?</p>
+<p>Именно поэтому я сделал главы этой книги очень короткими. Вы можете распечатать их и дать коллегам прочитать буквально 1–2 страницы, содержащие ровно ту информацию, которая необходима в данный момент.</p>
+<p>Небольшие коррективы в приоритизации задач способны кардинально повысить продуктивность всей команды. Помогая своим коллегам внедрять такие изменения, вы сможете стать настоящим супергероем для своей команды!</p>
+<div class="img-container">
+    <img src="extracted_images/img_p8_Im0.png" style="max-width: 50%;">
+</div>
+
+<div class="chapter-title"><div class="chapter-num">Глава 3</div>Prerequisites and Notation / Предварительные требования и обозначения</div>
+<p>Если вы уже проходили базовый курс по машинному обучению (например, мой массовый открытый онлайн-курс по машинному обучению на платформе Coursera) или имеете практический опыт применения обучения с учителем (supervised learning), вы без труда поймете этот текст.</p>
+<p>Я предполагаю, что вы знакомы с концепцией обучения с учителем: построением функции, отображающей входные данные <span class="math">x</span> в целевые значения <span class="math">y</span> на основе размеченных обучающих примеров <span class="math">(x, y)</span>. К алгоритмам обучения с учителем относятся линейная регрессия, логистическая регрессия и нейронные сети. Существует множество направлений машинного обучения, но сегодня основная часть его практической ценности создается именно благодаря обучению с учителем.</p>
+<p>Я буду часто ссылаться на нейронные сети (также известные как «глубокое обучение»). Для понимания книги вам потребуются лишь базовые представления о принципах их работы.</p>
+<p>Если вы не знакомы с упомянутыми понятиями, рекомендую посмотреть видеоматериалы первых трех недель курса машинного обучения на Coursera по адресу: <a href="http://ml-class.org">http://ml-class.org</a>.</p>
+<div class="img-container">
+    <img src="extracted_images/img_p9_Im0.png">
+</div>
+
+<div class="chapter-title"><div class="chapter-num">Глава 4</div>Scale drives machine learning progress / Масштаб как двигатель прогресса</div>
+<p>Многие идеи, лежащие в основе глубокого обучения (нейросетей), были сформулированы десятилетия назад. Почему же они совершают прорыв именно сейчас?</p>
+<p class="no-indent">Двумя мощнейшими катализаторами этого прогресса стали:</p>
+<ul>
+    <li><b>Доступность данных.</b> Люди проводят всё больше времени с цифровыми устройствами (компьютерами, смартфонами). Их цифровая активность генерирует огромные объемы данных, которые мы можем использовать для обучения наших алгоритмов.</li>
+    <li><b>Масштаб вычислений.</b> Всего несколько лет назад мы получили техническую возможность обучать нейросети достаточно большого размера, способные эффективно осваивать те гигантские наборы данных, которыми мы располагаем.</li>
+</ul>
+<p>В деталях: при накоплении данных качество работы традиционных алгоритмов обучения (таких как логистическая регрессия) обычно выходит на плато. Это означает, что кривая обучения выравнивается и алгоритм перестает улучшаться, сколько бы дополнительных данных мы ему ни давали.</p>
+<div class="img-container">
+    <img src="extracted_images/img_p10_Im0.png">
+</div>
+<p>Традиционные алгоритмы вели себя так, словно они просто не знали, что делать со всем тем объемом данных, который появился в нашем распоряжении.</p>
+<p>Если же вы обучите небольшую нейронную сеть (Small NN) на той же задаче обучения с учителем, вы получите чуть более высокое качество работы:</p>
+<div class="img-container">
+    <img src="extracted_images/img_p11_Im0.png">
+</div>
+<p>По мере дальнейшего увеличения размера нейронных сетей — перехода к средним (Medium NN) и большим нейросетям (Large NN) — качество работы продолжает расти:</p>
+<div class="img-container">
+    <img src="extracted_images/img_p11_Im1.png">
+</div>
+<p>Таким образом, наилучших результатов сегодня удается достичь при сочетании двух факторов: (i) обучения очень крупной нейросети и (ii) наличия огромного массива данных. Архитектура сети также важна, но увеличение масштаба сети и объема собираемых данных остается самым надежным путем повышения качества работы алгоритма.</p>
+
+<div class="section-header">
+    <h2>Setting up development and test sets<br>Настройка выборок для разработки и тестирования</h2>
+</div>
+
+<div class="chapter-title"><div class="chapter-num">Глава 5</div>Your development and test sets / Ваши выборки для разработки и тестирования</div>
+<p>Вернемся к нашему примеру с приложением для любителей кошек. Пользователи вашего мобильного приложения загружают фотографии самых разных объектов. Ваша задача — автоматически находить среди них изображения кошек.</p>
+<p>Ваша команда формирует большой обучающий набор данных, скачивая фотографии кошек (положительные примеры) и других объектов (отрицательные примеры) с различных веб-сайтов. Они делят эти данные в классической пропорции 70% на 30% на обучающую (train) и тестовую (test) выборки. На этих данных они строят детектор кошек, который отлично показывает себя как на обучении, так и на тесте.</p>
+<p>Но после запуска классификатора внутри мобильного приложения вы с ужасом обнаруживаете, что качество его работы крайне низкое!</p>
+<div class="img-container">
+    <img src="extracted_images/img_p14_Im0.png" style="max-width: 45%;">
+</div>
+<p class="no-indent">Что пошло не так?</p>
+<p>Вы выясняете, что фотографии, загружаемые пользователями, визуально сильно отличаются от картинок с сайтов, из которых состояла обучающая выборка. Пользователи делают снимки на камеры мобильных телефонов, поэтому они часто имеют низкое разрешение, смазаны и плохо освещены. Поскольку ваши обучающая и тестовая выборки состояли исключительно из качественных картинок с веб-сайтов, алгоритм не смог обобщить закономерности на реальное распределение данных, которое вас интересует — мобильные фотографии.</p>
+<p>До эпохи больших данных общепринятым стандартом в машинном обучении было случайное деление имеющихся данных в пропорции 70% на 30%. Этот подход жизнеспособен, но он становится всё более ошибочным в современных приложениях, где распределение обучающих данных (картинки с сайтов) отличается от распределения данных, на которых система должна работать в реальности (мобильные фото).</p>
+<p class="no-indent">Обычно мы определяем выборки следующим образом:</p>
+<ul>
+    <li><b>Обучающая выборка (Training set)</b> — данные, на которых запускается алгоритм обучения.</li>
+    <li><b>Выборка для разработки (Dev / development set)</b> — данные, используемые для настройки параметров, отбора признаков и принятия других архитектурных решений по алгоритму. Ее также называют валидационной выборкой (hold-out cross validation set).</li>
+    <li><b>Тестовая выборка (Test set)</b> — данные, применяемые исключительно для итоговой оценки качества работы алгоритма, но не для принятия решений о выборе самого алгоритма или его параметров.</li>
+</ul>
+<p>Цель dev- и test-выборок — направлять вашу команду к наиболее важным изменениям в системе машинного обучения.</p>
+<div class="callout">
+    <b>Правило:</b> Выбирайте dev- и test-выборки так, чтобы они максимально точно отражали те данные, которые вы ожидаете получать в будущем и на которых вы хотите работать качественно.
+</div>
+
+<div class="chapter-title"><div class="chapter-num">Глава 6</div>Your dev and test sets should come from the same distribution / Выборки dev и test должны соответствовать одному распределению</div>
+<p>Представьте, что вы разделили изображения кошек в вашем приложении на четыре сегмента по географическому признаку крупнейших рынков: (i) США, (ii) Китай, (iii) Индия и (iv) Другие страны. Чтобы сформировать dev- и test-выборки, вы решаете отправить данные из США и Индии в выборку dev, а данные из Китая и других стран — в test. Разумный ли это подход?</p>
+<div class="img-container">
+    <img src="extracted_images/img_p17_Im0.jpg" style="max-width: 40%;">
+</div>
+<p>Нет! Как только вы определили dev-выборку, ваша команда начинает целенаправленно оптимизировать качество работы алгоритма именно на ней. Соответственно, dev-выборка должна отражать общую задачу, которую вы хотите решить: хорошо работать во всех четырех регионах, а не только в двух из них.</p>
+<p>Вторая проблема разного распределения данных в dev и test заключается в высоком риске того, что команда создаст систему, которая блестяще покажет себя на dev, но полностью провалится на тестовой выборке. Это приводит к колоссальному разочарованию и впустую потраченным ресурсам. Не допускайте этого.</p>
+<p>Если бы выборки dev и test принадлежали к одному распределению, то при неудовлетворительном результате на тесте диагноз был бы очевиден: вы переобучились под dev-выборку. Решением в данном случае является сбор дополнительных данных для dev-выборки. Но если распределения разные, ваши варианты менее понятны: (1) Вы переобучились под выборку dev. (2) Тестовая выборка объективно сложнее. (3) Тестовая выборка просто другая, поэтому методы оптимизации для dev оказались бесполезными для test.</p>
+
+<div class="chapter-title"><div class="chapter-num">Глава 7</div>How large do the dev/test sets need to be? / Насколько большими должны быть выборки dev/test?</div>
+<p>Размер выборки dev должен быть достаточным для того, чтобы улавливать разницу между тестируемыми вами алгоритмами. Например, если классификатор А имеет точность 90.0%, а классификатор Б — 90.1%, то выборка dev из 100 примеров физически не позволит вам обнаружить это улучшение в 0.1%. В большинстве практических задач выборки dev размером от 1 000 до 10 000 примеров являются стандартом. С набором в 10 000 примеров вы с высокой вероятностью заметите прогресс даже в 0.1%.</p>
+<p>Что касается тестовой выборки, ее объем должен быть достаточным для обеспечения высокой уверенности в итоговой оценке работы всей системы. Историческое правило выделять под тест 30% данных отлично работает при скромных объемах выборки (от 100 до 10 000 примеров). Однако в эпоху больших данных, когда счет примеров идет на сотни миллионов и миллиарды, доля данных, выделяемых под dev/test, стремительно сокращается, хотя их абсолютное количество растет. Нет никакого смысла раздувать выборки dev и test сверх того объема, который реально необходим для надежной оценки работы алгоритмов.</p>
+
+<div class="chapter-title"><div class="chapter-num">Глава 8</div>Establish a single-number evaluation metric for your team to optimize / Установите единую числовую метрику оценки</div>
+<p>Точность классификации (accuracy) — классический пример единой числовой метрики. Вы прогоняете классификатор на dev-выборке и получаете одно конкретное число. На основе этой метрики легко сделать вывод: если модель А показала точность 97%, а модель Б — 90%, то модель А лучше.</p>
+<p>В отличие от нее, Точность (Precision) и Полнота (Recall) не являются единой метрикой, так как дают сразу два числа для оценки. Это сильно усложняет сравнение алгоритмов. Предположим, ваши модели показывают следующие результаты:</p>
+<table>
+    <thead>
+        <tr>
+            <th>Классификатор</th>
+            <th>Точность (Precision)</th>
+            <th>Полнота (Recall)</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>A</td>
+            <td>95%</td>
+            <td>90%</td>
+        </tr>
+        <tr>
+            <td>B</td>
+            <td>98%</td>
+            <td>85%</td>
+        </tr>
+    </tbody>
+</table>
+<p>В данном случае ни один из классификаторов не имеет очевидного преимущества, что затрудняет выбор оптимального решения.</p>
+<p>Если для вас важны оба параметра, я настоятельно рекомендую объединить их в одно число с помощью стандартных математических методов, таких как F1-мера (среднее гармоническое):</p>
+<table>
+    <thead>
+        <tr>
+            <th>Классификатор</th>
+            <th>Точность (Precision)</th>
+            <th>Полнота (Recall)</th>
+            <th>F1-мера (F1 score)</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>A</td>
+            <td>95%</td>
+            <td>90%</td>
+            <td>92.4%</td>
+        </tr>
+        <tr>
+            <td>B</td>
+            <td>98%</td>
+            <td>85%</td>
+            <td>91.0%</td>
+        </tr>
+    </tbody>
+</table>
+<p>Наличие единой числовой метрики колоссально ускоряет процесс принятия решений при выборе лучшей модели из десятков альтернативных вариантов. Она дает четкий ранжированный список предпочтений и ясное направление движения вперед.</p>
+
+<div class="chapter-title"><div class="chapter-num">Глава 9</div>Optimizing and satisficing metrics / Оптимизирующие и удовлетворяющие метрики</div>
+<p>Вот еще один эффективный способ сочетания нескольких критериев оценки. Предположим, вы заботитесь как о точности алгоритма, так и о времени его выполнения (инференсе):</p>
+<table>
+    <thead>
+        <tr>
+            <th>Классификатор</th>
+            <th>Точность (Accuracy)</th>
+            <th>Время выполнения (Running time)</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>A</td>
+            <td>90%</td>
+            <td>80 мс</td>
+        </tr>
+        <tr>
+            <td>B</td>
+            <td>92%</td>
+            <td>95 мс</td>
+        </tr>
+        <tr>
+            <td>C</td>
+            <td>95%</td>
+            <td>1,500 мс</td>
+        </tr>
+    </tbody>
+</table>
+<p>Кажется противоестественным объединять точность и время выполнения в единую искусственную формулу, например: <span class="math">Accuracy - 0.5 	imes RunningTime</span>.</p>
+<p>Вместо этого вы можете сделать следующее: сначала определите, какое время выполнения является «приемлемым». Допустим, всё, что работает быстрее 100 мс, является приемлемым. Затем максимизируйте точность при условии, что ваш классификатор удовлетворяет этому критерию времени. В данном сценарии время выполнения является <b>удовлетворяющей метрикой (satisficing metric)</b>, а точность — <b>оптимизирующей метрикой (optimizing metric)</b>.</p>
+
+<div class="chapter-title"><div class="chapter-num">Глава 10</div>Having a dev set and metric speeds up iterations / Наличие dev-выборки и метрики ускоряет итерации</div>
+<p>Крайне трудно заранее предугадать, какой подход лучше всего сработает для новой задачи. Построение системы машинного обучения — это высокоитеративный процесс:</p>
+<div class="img-container">
+    <img src="extracted_images/img_p24_Im0.png" style="max-width: 45%;">
+</div>
+<p>Каждый раз, когда у вас появляется идея, реализация ее в коде и измерение ее производительности на dev-выборке позволяют мгновенно понять, движетесь ли вы в правильном направлении. Без чёткой метрики и выборки вам пришлось бы часами тестировать приложение вручную, что критически замедлило бы прогресс.</p>
+
+<div class="chapter-title"><div class="chapter-num">Глава 11</div>When to change dev/test sets and metrics / Когда следует менять dev/test выборки и метрики</div>
+<p>В начале нового проекта я стараюсь максимально быстро сформировать первоначальные выборки dev/test и метрику — обычно менее чем за одну неделю. Лучше начать с несовершенного варианта, чем увязнуть в размышлениях.</p>
+<p>Если позже вы поймете, что промахнулись, обязательно измените их. Есть три основные причины, по которым метрика или dev-выборка могут неверно оценивать модели:</p>
+<div class="img-container">
+    <img src="extracted_images/img_p25_Im0.png" style="max-width: 45%;">
+</div>
+<ol>
+    <li><b>Реальное распределение изменилось:</b> например, пользователи начали загружать фотографии маленьких котят вместо взрослых кошек. Вам нужно обновить выборки, чтобы они стали репрезентативными.</li>
+    <li><b>Вы переобучились под выборку dev:</b> если результаты на dev значительно превосходят результаты на тестовой выборке, это явный признак переобучения под валидационный набор. Вам нужна свежая выборка dev.</li>
+    <li><b>Метрика измеряет не то, что нужно продукту:</b> например, модель А точнее модели Б, но периодически пропускает нежелательные изображения. Нужно переписать метрику, чтобы она жестко штрафовала такие критические ошибки.</li>
+</ol>
+
+<div class="chapter-title"><div class="chapter-num">Глава 12</div>Takeaways: Setting up development and test sets / Ключевые выводы по настройке выборок</div>
+<ul>
+    <li>Выбирайте выборки dev и test из распределения, которое отражает ваши будущие реальные данные.</li>
+    <li>По возможности следите, чтобы выборки dev и test принадлежали к одному распределению.</li>
+    <li>Установите единую числовую метрику оценки для оптимизации работы команды. При наличии нескольких целей выделите одну оптимизирующую и остальные удовлетворяющие метрики.</li>
+    <li>Машинное обучение — итеративный процесс. Наличие чётких выборок и метрик позволяет быстрее отбрасывать плохие идеи и развивать успешные.</li>
+</ul>
+
+<div class="section-header">
+    <h2>Basic Error Analysis<br>Базовый анализ ошибок</h2>
+</div>
+
+<div class="chapter-title"><div class="chapter-num">Глава 13</div>Build your first system quickly, then iterate / Быстро постройте первую систему, затем переходите к итерациям</div>
+<p>Вы хотите создать новую систему защиты от спама. У вашей команды множество идей: сбор гигантских данных через ловушки («honeypots»), извлечение сложных текстовых признаков, анализ сетевых заголовков и серверов. С чего начать?</p>
+<p>Не пытайтесь сразу спроектировать и построить идеальную систему. Вместо этого соберите базовую рабочую модель всего за несколько дней. Даже если она будет далека от совершенства, ее работа даст вам неоценимые зацепки и укажет самые перспективные направления для инвестиций вашего времени.</p>
+<div class="img-container">
+    <img src="extracted_images/img_p29_Im0.png" style="max-width: 40%;">
+</div>
+
+<div class="chapter-title"><div class="chapter-num">Глава 14</div>Error analysis: Look at dev set examples to evaluate ideas / Изучение примеров для оценки идей</div>
+<p>Вы заметили, что ваш детектор кошек иногда принимает собак за кошек. Коллега предлагает потратить месяц на интеграцию стороннего софта для распознавания собак. Стоит ли это делать?</p>
+<p>Прежде чем тратить месяц, проведите анализ ошибок. Возьмите 100 случайных примеров из dev-выборки, на которых алгоритм ошибся, и вручную посчитайте, сколько среди них собак. Если собак всего 5%, то максимальный выигрыш от этого проекта составит всего 5% от ваших ошибок (например, снижение общей ошибки с 10% до 9.5%). Проект не стоит потраченного месяца. Но если собак окажется 50%, этот проект имеет наивысший приоритет.</p>
+<div class="img-container">
+    <img src="extracted_images/img_p30_Im0.png" style="max-width: 60%;">
+</div>
+
+<div class="chapter-title"><div class="chapter-num">Глава 15</div>Evaluating multiple ideas in parallel during error analysis / Параллельная оценка нескольких идей</div>
+<p>Вы можете эффективно оценивать множество различных идей параллельно, создав простую таблицу в Excel во время ручного просмотра ~100 ошибочных изображений из dev-выборки:</p>
+<table>
+    <thead>
+        <tr>
+            <th>Изображение</th>
+            <th>Собака (Dog)</th>
+            <th>Крупные кошачьи (Great cat)</th>
+            <th>Размытые (Blurry)</th>
+            <th>Комментарии</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>1</td>
+            <td>✓</td>
+            <td></td>
+            <td></td>
+            <td>Необычный окрас питбуля</td>
+        </tr>
+        <tr>
+            <td>2</td>
+            <td></td>
+            <td></td>
+            <td>✓</td>
+            <td>Размытое фото на ходу</td>
+        </tr>
+        <tr>
+            <td>3</td>
+            <td></td>
+            <td>✓</td>
+            <td></td>
+            <td>Лев; фото из зоопарка в дождливый день</td>
+        </tr>
+        <tr>
+            <td>4</td>
+            <td></td>
+            <td>✓</td>
+            <td>✓</td>
+            <td>Пантера за деревом; размыто</td>
+        </tr>
+        <tr style="font-weight: bold; background-color: #e2e8f0;">
+            <td>% от общего числа</td>
+            <td>8%</td>
+            <td>43%</td>
+            <td>61%</td>
+            <td></td>
+        </tr>
+    </tbody>
+</table>
+<p class="no-indent">Из этой таблицы сразу видно, что борьба с размытыми изображениями (61%) и крупными дикими кошками (43%) принесет гораздо больше пользы, чем исправление ошибок с собаками (всего 8%).</p>
+
+<div class="chapter-title"><div class="chapter-num">Глава 16</div>Cleaning up mislabeled dev and test set examples / Очистка неверно размеченных примеров</div>
+<p>Во время анализа ошибок вы можете обнаружить, что некоторые изображения были неверно размечены самими людьми-разметчиками еще до того, как их увидел алгоритм. Добавьте столбец «Mislabeled» (Неверная разметка) в свою таблицу анализа ошибок. Стоит ли тратить время на их исправление?</p>
+<p>Если общая ошибка вашей модели составляет 10%, а ошибки разметки составляют всего 0.6% от этого объема, их исправление не критично. Но если вы улучшили модель до общей ошибки в 2.0%, а ошибки разметки по-прежнему составляют 0.6% (то есть целых 30% от всех ваших текущих ошибок!), пришло время вручную переразметить данные в dev- и test-выборках, чтобы ваши оценки оставались точными.</p>
+
+<div class="chapter-title"><div class="chapter-num">Глава 17</div>If you have a large dev set, split it into two subsets / Разделение большой dev-выборки на Eyeball и Blackbox</div>
+<p>Если у вас огромная dev-выборка (например, 5 000 примеров) и модель ошибается на 1 000 из них, просмотреть их все вручную невозможно. Разделите dev-выборку на две части:</p>
+<div class="img-container">
+    <img src="extracted_images/img_p36_Im0.jpg" style="max-width: 45%;">
+</div>
+<ol>
+    <li><b>Визуальная выборка (Eyeball dev set):</b> небольшая часть (например, 10-20% от ошибок, около 100 штук), которую вы будете детально изучать глазами для анализа ошибок.</li>
+    <li><b>Скрытая выборка (Blackbox dev set):</b> оставшаяся большая часть, которую вы никогда не смотрите глазами. Она используется для автоматической оценки моделей и настройки гиперпараметров.</li>
+</ol>
+<div class="img-container">
+    <img src="extracted_images/img_p37_Im0.png" style="max-width: 45%;">
+</div>
+<p>Это предотвратит проблему скрытого переобучения вашего собственного человеческого восприятия под те примеры, которые вы постоянно разглядываете при анализе.</p>
+
+<div class="chapter-title"><div class="chapter-num">Глава 18</div>How big should the Eyeball and Blackbox dev sets be? / Какого размера должны быть Eyeball и Blackbox выборки?</div>
+<p>Ваша визуальная выборка (Eyeball dev set) должна быть достаточно большой, чтобы содержать хотя бы 50–100 ошибок для анализа. Если уровень ошибок вашего классификатора составляет 5%, то чтобы получить 100 ошибок, размер Eyeball выборки должен быть около 2 000 примеров (<span class="math">0.05 	imes 2000 = 100</span>). Скрытая выборка (Blackbox dev set) стандартно составляет от 1 000 до 10 000 примеров для обеспечения высокой статистической надежности автоматических тестов.</p>
+<div class="img-container">
+    <img src="extracted_images/img_p38_Im0.jpg" style="max-width: 45%;">
+</div>
+<div class="img-container">
+    <img src="extracted_images/img_p39_Im0.png" style="max-width: 45%;">
+</div>
+
+<div class="chapter-title"><div class="chapter-num">Глава 19</div>Takeaways: Basic error analysis / Ключевые выводы по базовому анализу ошибок</div>
+<ul>
+    <li>Быстро постройте простую систему на старте проекта, чтобы использовать анализ ошибок для приоритизации дальнейших задач.</li>
+    <li>Проводите анализ ошибок вручную на ~100 примерах, подсчитывая проценты по различным категориям проблем.</li>
+    <li>При необходимости разделяйте выборку на Eyeball и Blackbox подмножества, чтобы избежать переобучения аналитика под данные.</li>
+</ul>
+
+<div class="section-header">
+    <h2>Bias and Variance<br>Смещение и дисперсия</h2>
+</div>
+
+<div class="chapter-title"><div class="chapter-num">Глава 20</div>Bias and Variance: The two big sources of error / Смещение и дисперсия — два главных источника ошибок</div>
+<p>В машинном обучении существуют два ключевых источника ошибок: <b>смещение (bias)</b> и <b>дисперсия (variance)</b>. Понимание этих концепций — ключ к эффективному управлению временем разработки.</p>
+<p>Представим, что ваша цель — создать детектор кошек с уровнем ошибки 5%. В данный момент ошибка на обучении составляет 15%, а на dev-выборке — 16%. В этой ситуации сбор дополнительных данных не даст практически ничего. Ваша главная проблема — алгоритм плохо обучается даже на тех данных, которые у него уже есть. Сначала необходимо снизить смещение (улучшить показатели на обучении).</p>
+<p class="no-indent">Мы разбиваем ошибку на dev-выборке на две составляющие:</p>
+<ul>
+    <li><b>Смещение (Bias):</b> Ошибка на обучающей выборке (в данном примере 15%).</li>
+    <li><b>Дисперсия (Variance):</b> Разница между ошибкой на dev-выборке и ошибкой на обучении (в данном примере 16% - 15% = 1%).</li>
+</ul>
+<p>Некоторые изменения в алгоритме помогают бороться со смещением (например, увеличение размера сети), другие — с дисперсией (например, добавление регуляризации или данных).</p>
+
+<div class="chapter-title"><div class="chapter-num">Глава 21</div>Examples of Bias and Variance / Примеры смещения и дисперсии</div>
+<p class="no-indent">Рассмотрим различные сценарии для задачи классификации кошек (целевой уровень ошибки равен ~0%):</p>
+<ul>
+    <li><b>Ошибка на обучении = 1%, Ошибка на dev = 11%:</b> Высокая дисперсия (High Variance). Модель переобучилась под обучающую выборку (overfitting) и плохо обобщает на новые данные.</li>
+    <li><b>Ошибка на обучении = 15%, Ошибка на dev = 16%:</b> Высокое смещение (High Bias). Модель недообучилась (underfitting), она плохо улавливает закономерности даже в обучающих данных.</li>
+    <li><b>Ошибка на обучении = 15%, Ошибка на dev = 30%:</b> Высокое смещение и высокая дисперсия одновременно. Алгоритм плохо работает на обучении и еще в два раза хуже на валидации.</li>
+    <li><b>Ошибка на обучении = 0.5%, Ошибка на dev = 1%:</b> Низкое смещение, низкая дисперсия. Идеальный результат!</li>
+</ul>
+
+<div class="chapter-title"><div class="chapter-num">Глава 22</div>Comparing to the optimal error rate / Сравнение с оптимальным уровнем ошибки</div>
+<p>Понятие «высокого смещения» всегда относительно и зависит от минимально возможного уровня ошибки для конкретной задачи (ошибки Байеса). Предположим, вы работаете над распознаванием речи в условиях сильного шума, где даже человек ошибается в 14% случаев. Оптимальный уровень ошибки равен 14%.</p>
+<p class="no-indent">Если ваша модель показывает: Ошибка на обучении = 15%, Ошибка на dev = 30%, то:</p>
+<ul>
+    <li><b>Неустранимое смещение (Optimal error rate):</b> 14%.</li>
+    <li><b>Устранимое смещение (Avoidable bias):</b> <span class="math">15\% - 14\% = 1\%</span>. У вас практически нет проблем со смещением! Модель работает почти на пределе возможностей теоретического максимума.</li>
+    <li><b>Дисперсия (Variance):</b> <span class="math">30\% - 15\% = 15\%</span>. Основная проблема — это дисперсия. Нужно сосредоточиться на методах снижения дисперсии.</li>
+</ul>
+
+<div class="chapter-title"><div class="chapter-num">Глава 23</div>Addressing Bias and Variance / Борьба со смещением и дисперсией</div>
+<p class="no-indent">Самая базовая и надежная формула для решения этих проблем выглядит так:</p>
+<ul>
+    <li>Если у вас <b>высокое устранимое смещение</b> — увеличивайте размер вашей модели (добавляйте слои или нейроны в нейросеть), меняйте архитектуру или модифицируйте входные признаки.</li>
+    <li>Если у вас <b>высокая дисперсия</b> — добавляйте новые данные в обучающую выборку, используйте регуляризацию (L2, dropout) или раннюю остановку (early stopping).</li>
+</ul>
+
+<div class="chapter-title"><div class="chapter-num">Глава 24</div>Bias vs. Variance tradeoff / Компромисс между смещением и дисперсией</div>
+<p>В традиционной статистике существовал строгий компромисс: действия, уменьшающие смещение (например, добавление признаков), увеличивали дисперсию, и наоборот. В современную эпоху глубокого обучения и больших данных этот компромисс сильно ослаблен. Если у вас большая нейросеть с правильно настроенной регуляризацией, вы можете безопасно снижать смещение (увеличивая размер сети), не увеличивая при этом дисперсию. А добавляя данные, вы можете снижать дисперсию, не ухудшая смещение.</p>
+
+<div class="chapter-title"><div class="chapter-num">Глава 25</div>Techniques for reducing avoidable bias / Методы снижения устранимого смещения</div>
+<ol>
+    <li><b>Увеличение размера модели</b> (больше скрытых слоев/нейронов). Практически всегда снижает смещение. Риск роста дисперсии купируется регуляризацией.</li>
+    <li><b>Модификация признаков</b> на основе анализа ошибок.</li>
+    <li><b>Уменьшение или отключение регуляризации</b> (L2, dropout). Снизит смещение, но поднимет дисперсию.</li>
+    <li><b>Изменение архитектуры модели</b> на более подходящую для данной задачи.</li>
+</ol>
+<p><b>Что НЕ помогает:</b> добавление новых обучающих данных. Сбор данных помогает бороться с дисперсией, но практически не влияет на смещение.</p>
+
+<div class="chapter-title"><div class="chapter-num">Глава 26</div>Error analysis on the training set / Анализ ошибок на обучающей выборке</div>
+<p>Если ваша модель страдает от высокого смещения, полезно провести анализ ошибок прямо на обучающей выборке. Возьмите ~100 примеров из обучающего набора, на которых алгоритм ошибся, послушайте аудиозаписи или посмотрите картинки вручную. Посчитайте категории: например, 75% ошибок на обучении происходят из-за сильного фонового шума ветра. Это подскажет вам, как изменить архитектуру или признаки модели для лучшей подгонки под сложные обучающие примеры.</p>
+
+<div class="chapter-title"><div class="chapter-num">Глава 27</div>Techniques for reducing variance / Методы снижения дисперсии</div>
+<ol>
+    <li><b>Добавление большего количества обучающих данных</b> — самый надежный и простой способ снижения дисперсии, если у вас есть вычислительные ресурсы и доступ к данным.</li>
+    <li><b>Добавление регуляризации</b> (L2, L1, dropout) — снижает дисперсию за счет некоторого контролируемого роста смещения.</li>
+    <li><b>Ранняя остановка (Early stopping)</b> во время градиентного спуска на основе ошибки на dev-выборке.</li>
+    <li><b>Отбор признаков (Feature selection)</b> для уменьшения их количества (актуально при очень маленьких обучающих выборках).</li>
+</ol>
+
+<div class="section-header">
+    <h2>Learning curves<br>Кривые обучения</h2>
+</div>
+
+<div class="chapter-title"><div class="chapter-num">Глава 28</div>Diagnosing bias and variance: Learning curves / Диагностика смещения и дисперсии с помощью кривых обучения</div>
+<p>Кривая обучения — это график, на котором по оси абсцисс откладывается размер обучающей выборки (<span class="math">m</span>), а по оси ординат — уровень ошибки на выборке dev. Чтобы построить такой график, обучите копии вашей модели на подмножествах данных разного объема (например, на 100, 200, 300... 1000 примеров):</p>
+<div class="img-container">
+    <img src="extracted_images/img_p56_Im0.png">
+</div>
+<p>По мере роста размера выборки ошибка на dev должна снижаться. Добавив на график горизонтальную пунктирную линию желаемого качества (Desired performance), вы сможете визуально экстраполировать красную кривую и понять, поможет ли простое удвоение или утроение данных достичь цели, либо кривая уже вышла на плато:</p>
+<div class="img-container">
+    <img src="extracted_images/img_p57_Im0.png">
+</div>
+<p>Если красная кривая ошибки dev полностью выровнялась (вышла на плато), это ценнейший сигнал: сбор новых данных бесполезен, нужно менять модель или признаки. В ином случае, если есть явный тренд к улучшению, сбор дополнительных данных имеет смысл:</p>
+<div class="img-container">
+    <img src="extracted_images/img_p57_Im1.png">
+</div>
+
+<div class="chapter-title"><div class="chapter-num">Глава 29</div>Plotting training error / Построение кривой ошибки на обучении</div>
+<p>В отличие от ошибки на dev-выборке, которая снижается при росте объема данных, ошибка на обучающей выборке обычно <b>растет</b> по мере увеличения <span class="math">m</span>. Если у вас всего 2 примера, модель легко зазубрит их до 0% ошибки. Если примеров 10 000, идеально подогнать их все становится намного сложнее, особенно при наличии шума или спорных меток. Добавим синюю кривую ошибки обучения (Training error) на наш график:</p>
+<div class="img-container">
+    <img src="extracted_images/img_p59_Im0.png">
+</div>
+<p>Синяя кривая всегда лежит ниже красной кривой dev-ошибки. Совместный анализ обеих кривых позволяет безошибочно диагностировать проблемы высокого смещения или высокой дисперсии, о чем мы детально поговорим в следующих главах второй половины книги.</p>
+
+
+<!-- ВТОРАЯ ЧАСТЬ КНИГИ -->
+<div class="chapter-title"><div class="chapter-num">Глава 30</div>Interpreting learning curves: High bias / Интерпретация кривых обучения: Высокое смещение</div>
+<p>Предположим, ваша кривая ошибки для dev-выборки вышла на плато, и вы хотите понять, поможет ли добавление данных. Посмотрим на график, объединяющий ошибку на обучении и валидации:</p>
+<div class="img-container">
+    <img src="extracted_images_part2/img_p60_Im1.png">
+</div>
+<p>Когда синяя кривая (Training error) находится близко к красной кривой (Dev error), но при этом обе они расположены значительно выше уровня желаемого качества (Desired performance), перед нами классический случай <b>высокого устранимого смещения (High avoidable bias)</b>.</p>
+<p>В этой ситуации добавление новых данных не поможет, так как синяя кривая при увеличении объема данных может только возрасти или остаться неизменной, отдаляясь от целевой отметки. Необходимо менять саму модель.</p>
+
+<div class="chapter-title"><div class="chapter-num">Глава 31</div>Interpreting learning curves: Other cases / Другие случаи интерпретации кривых</div>
+<p>Рассмотрим случай высокой дисперсии (High variance):</p>
+<div class="img-container">
+    <img src="extracted_images_part2/img_p62_Im0.png">
+</div>
+<p>Здесь ошибка на обучении очень низкая, а ошибка на dev-выборке значительно выше. Между ними существует большой разрыв (gap). В данном случае добавление обучающих данных гарантированно поможет сузить этот разрыв и улучшить качество.</p>
+<p>Если же мы наблюдаем картину, где ошибка обучения высока, а разрыв до dev-выборки всё еще велик, мы имеем дело со <b>смещением и дисперсией одновременно</b>. Нужно работать над обоими компонентами.</p>
+<div class="img-container">
+    <img src="extracted_images_part2/img_p62_Im1.png">
+</div>
+
+<div class="chapter-title"><div class="chapter-num">Глава 32</div>Plotting learning curves / Практические аспекты построения кривых обучения</div>
+<p>Построение кривых обучения на малых объемах данных может быть сопряжено с высоким уровнем случайного шума. Чтобы сгладить кривую, можно применить технику многократной случайной выборки с возвращением (sampling with replacement) для каждого фиксированного размера обучающего подмножества и строить график по усредненным значениям ошибки.</p>
+<p>Если обучение модели ресурсоемко, вместо линейного шага (1000, 2000, 3000...) используйте геометрический или адаптивный шаг (например, 1000, 2000, 4000, 8000...), чтобы уловить общие тренды с минимальными затратами на вычисления.</p>
+
+<div class="section-header">
+    <h2>Comparing to human-level performance<br>Сравнение с уровнем человеческого восприятия</h2>
+</div>
+
+<div class="chapter-title"><div class="chapter-num">Глава 33</div>Why we compare to human-level performance / Почему мы сравниваем успехи моделей с человеком</div>
+<p>Многие современные ИИ-системы автоматизируют задачи, с которыми люди справляются превосходно. Сравнение с человеком дает нам три мощных преимущества:</p>
+<ol>
+    <li><b>Простота разметки:</b> люди могут легко и быстро генерировать высококачественные метки для обучающей выборки.</li>
+    <li><b>Интуитивный анализ ошибок:</b> если человек справляется с задачей лучше модели, аналитик может понять, какие именно паттерны (контекст, интонация, визуальные детали) модель упускает.</li>
+    <li><b>Оценка неустранимой ошибки:</b> человеческий уровень служит отличным прокси-ориентиром для оценки ошибки Байеса.</li>
+</ol>
+
+<div class="chapter-title"><div class="chapter-num">Глава 34</div>How to define human-level performance / Как определить уровень человеческого качества</div>
+<p>Предположим, в задаче анализа медицинских снимков обычный человек дает 15% ошибки, молодой врач — 10%, опытный специалист — 5%, а консилиум из нескольких экспертов — 2%. Какую цифру взять за ориентир?</p>
+<p>В качестве прокси для оптимальной ошибки (ошибки Байеса) следует выбрать наилучший показатель — 2%. Это даст вам максимальное пространство для оптимизации устранимого смещения модели.</p>
+
+<div class="chapter-title"><div class="chapter-num">Глава 35</div>Surpassing human-level performance / Превосходство над человеком</div>
+<p>Как только средняя точность вашей модели превосходит человеческий уровень, традиционный анализ ошибок на основе человеческой интуиции становится менее эффективным. В задачах вроде предсказания котировок акций, рекомендаций товаров или логистики машины давно превзошли людей, и прогресс там идет медленнее, так как сложнее нащупать теоретический предел качества.</p>
+
+<div class="section-header">
+    <h2>Training and testing on different distributions<br>Обучение и тестирование на различных распределениях</h2>
+</div>
+
+<div class="chapter-title"><div class="chapter-num">Глава 36</div>When you should train and test on different distributions / Сценарии несовпадения распределений</div>
+<p>У вас есть 10 000 размеченных фотографий от реальных пользователей приложения и 200 000 идеальных картинок из интернета. Ошибкой было бы перемешать их случайным образом. Обучайте модель на смеси интернет-картинок и части пользовательских данных, но выборки dev и test формируйте <b>исключительно из реальных пользовательских данных</b>.</p>
+
+<div class="chapter-title"><div class="chapter-num">Глава 37</div>How to decide whether to use all your data / Стоит ли использовать все доступные данные</div>
+<p>Если у вас есть огромная емкость модели (крупная нейросеть), добавление данных из другого распределения (например, архивных документов или сторонних сайтов) практически никогда не вредит системе, так как у сети достаточно «места в памяти», чтобы выучить специфику обоих источников без ущерба для целевой задачи.</p>
+<div class="img-container">
+    <img src="extracted_images_part2/img_p74_Im0.png" style="max-width: 45%;">
+</div>
+
+<div class="chapter-title"><div class="chapter-num">Глава 38</div>How to decide whether to include inconsistent data / Проблема противоречивых данных</div>
+<p>Если вы предсказываете цены на недвижимость в Нью-Йорке, добавление данных по Детройту (где цены существенно ниже при той же площади) напрямую повредит вашей модели, так как нарушается функциональная зависимость <span class="math">x 
+ightarrow y</span>. Такие противоречивые данные включать нельзя, если только вы не введете явный дополнительный признак города.</p>
+
+<div class="chapter-title"><div class="chapter-num">Глава 39</div>Weighting data / Взвешивание данных при обучении</div>
+<p>Когда объём дополнительных данных из интернета многократно превышает объём целевых данных, модель может сфокусироваться на оптимизации интернет-ошибки. Чтобы сбалансировать это, введите коэффициент <span class="math">eta</span> в функцию потерь:</p>
+<div class="img-container">
+    <img src="extracted_images_part2/img_p76_Im0.png" style="max-width: 75%; border:none; box-shadow:none;">
+</div>
+<p class="no-indent">Например, установив <span class="math">eta = 1/40</span>, вы уравняете веса целевых и дополнительных примеров:</p>
+<div class="img-container">
+    <img src="extracted_images_part2/img_p76_Im1.png" style="max-width: 75%; border:none; box-shadow:none;">
+</div>
+
+<div class="chapter-title"><div class="chapter-num">Глава 40</div>Generalizing from the training set to the dev set / Обобщение с обучения на dev-выборку</div>
+<p>Для точной диагностики в условиях разных распределений вводится дополнительный датасет — <b>Training-dev set</b>. Он имеет то же распределение, что и обучающая выборка, но не участвует в обучении параметров. Теперь у вас четыре выборки:</p>
+<ul>
+    <li><b>Training set:</b> данные для обучения (Интернет + Мобильные).</li>
+    <li><b>Training-dev set:</b> валидация обучения (Интернет + Мобильные).</li>
+    <li><b>Dev set:</b> целевая валидация (только Мобильные).</li>
+    <li><b>Test set:</b> целевой тест (только Мобильные).</li>
+</ul>
+
+<div class="chapter-title"><div class="chapter-num">Глава 41</div>Identifying Bias, Variance, and Data Mismatch Errors / Идентификация типов ошибок и несоответствия данных</div>
+<p>С помощью Training-dev выборки мы можем четко локализовать проблему:</p>
+<ul>
+    <li>Если ошибка на Training = 1%, на Training-dev = 5%, а на Dev = 5% — у нас классическая <b>высокая дисперсия</b>.</li>
+    <li>Если ошибка на Training = 1%, на Training-dev = 1.5%, а на Dev = 10% — перед нами чистая проблема <b>несоответствия данных (data mismatch)</b>.</li>
+</ul>
+<div class="img-container">
+    <img src="extracted_images_part2/img_p80_Im0.png">
+</div>
+
+<div class="chapter-title"><div class="chapter-num">Глава 42</div>Addressing data mismatch / Способы преодоления data mismatch</div>
+<p>Проведите анализ ошибок на dev-выборке. Если вы обнаружили, что модель ломается на аудиозаписях, сделанных внутри автомобиля, ваша цель — целенаправленно искать или синтезировать обучающие данные, содержащие дорожные шумы и гул мотора.</p>
+
+<div class="chapter-title"><div class="chapter-num">Глава 43</div>Artificial data synthesis / Искусственный синтез данных</div>
+<p>Вы можете смешать чистую речь с записью шума автомобиля, получив реалистичный синтетический звук. Будьте осторожны: если у вас всего 1 час уникального автомобильного шума, алгоритм может переобучиться под конкретные частоты этого часа, и синтез не даст ожидаемого эффекта обобщения на реальные автомобили.</p>
+<div class="img-container">
+    <img src="extracted_images_part2/img_p83_Im0.png" style="max-width: 50%;">
+</div>
+
+<div class="section-header">
+    <h2>Debugging inference algorithms<br>Отладка алгоритмов логического вывода</h2>
+</div>
+
+<div class="chapter-title"><div class="chapter-num">Глава 44</div>The Optimization Verification test / Тест верификации оптимизации</div>
+<p>В сложных системах (например, распознавании речи) модель вычисляет оценку <span class="math">Score_A(S)</span>, а приближенный алгоритм поиска (например, Beam Search) пытается найти предложение <span class="math">S</span>, максимизирующее эту оценку. Если система вместо корректной фразы <span class="math">S^*</span> выдала ошибочную <span class="math">S_{out}</span>, проведите тест:</p>
+<div class="callout">
+    Сравните их скоры: если <span class="math">Score_A(S^*) > Score_A(S_{out})</span>, то виноват поисковый алгоритм (Beam Search пропустил максимум). Если наоборот — виновата сама оценочная функция (модель присвоила плохой фразе высокий балл).
+</div>
+
+<div class="chapter-title"><div class="chapter-num">Глава 45</div>General form of Optimization Verification test / Общая форма теста верификации</div>
+<p>Этот паттерн применим везде, где есть разделение на функцию оценки качества <span class="math">Score(y)</span> и алгоритм оптимизации, ищущий наилучший <span class="math">y</span> (например, в машинном переводе с китайского на английский).</p>
+<div class="img-container">
+    <img src="extracted_images_part2/img_p87_Im0.png" style="max-width: 45%;">
+</div>
+
+<div class="chapter-title"><div class="chapter-num">Глава 46</div>Reinforcement learning example / Применение в обучении с подкреплением</div>
+<p>При обучении вертолета выполнению опасных маневров без двигателя (авторотация) мы сравниваем траекторию человека <span class="math">T_{human}</span> и алгоритма <span class="math">T_{out}</span>. Если функция награды <span class="math">R(T_{human}) \le R(T_{out})</span>, значит, наша математическая формулировка награды неверно описывает реальность, и нужно переписывать функцию <span class="math">R(\cdot)</span>.</p>
+<div class="img-container">
+    <img src="extracted_images_part2/img_p88_Im0.png">
+</div>
+
+<div class="section-header">
+    <h2>End-to-end deep learning<br>Сквозное глубокое обучение</h2>
+</div>
+
+<div class="chapter-title"><div class="chapter-num">Глава 47</div>The rise of end-to-end learning / Становление сквозного обучения</div>
+<p>Вместо классических многоступенчатых цепочек (Парсер текста <span class="math">
+ightarrow</span> Классификатор тональности) современные системы сквозного обучения (end-to-end) напрямую преобразуют исходный текст в итоговый класс позитивного/негативного отзыва с помощью единой нейросети.</p>
+<div class="img-container">
+    <img src="extracted_images_part2/img_p91_Im0.png">
+</div>
+
+<div class="chapter-title"><div class="chapter-num">Глава 48</div>More end-to-end learning examples / Дополнительные примеры сквозных систем</div>
+<p>В распознавании речи сквозная архитектура заменяет цепочку из извлечения MFCC-признаков, распознавания фонем и лингвистического классификатора прямой картой (Аудиозапись <span class="math">
+ightarrow</span> Текст транскрипта):</p>
+<div class="img-container">
+    <img src="extracted_images_part2/img_p92_Im0.png">
+</div>
+<p>Для беспилотных автомобилей классический подход включает детекторы машин, пешеходов и модуль планирования траектории. Сквозной метод пытается отобразить картинку с камеры напрямую в угол поворота руля:</p>
+<div class="img-container">
+    <img src="extracted_images_part2/img_p93_Im0.png">
+</div>
+
+<div class="chapter-title"><div class="chapter-num">Глава 49</div>Pros and cons of end-to-end learning / Плюсы и минусы сквозного подхода</div>
+<p>Главный плюс сквозного обучения — нейросеть не ограничена рамками человеческих понятий (вроде фонем или жестких геометрических правил) и может найти скрытые оптимальные взаимосвязи. Главный минус — для обучения сквозных карт требуется колоссальное, часто недостижимое количество размеченных пар «вход-выход».</p>
+<div class="img-container">
+    <img src="extracted_images_part2/img_p95_Im0.png">
+</div>
+
+<div class="chapter-title"><div class="chapter-num">Глава 50</div>Choosing pipeline components: Data availability / Выбор компонентов пайплайна: Доступность данных</div>
+<p>Разбивать систему на промежуточные блоки выгодно тогда, когда для каждого блока в отдельности на рынке есть огромные массивы данных (например, миллионы размеченных силуэтов пешеходов и машин для компьютерного зрения), в то время как готовых датасетов сквозного вождения крайне мало.</p>
+<div class="img-container">
+    <img src="extracted_images_part2/img_p97_Im0.png">
+</div>
+
+<div class="chapter-title"><div class="chapter-num">ГWARA 51</div>Choosing pipeline components: Task simplicity / Выбор компонентов пайплайна: Простота подзадач</div>
+<p>Всегда стремитесь декомпозировать сложную комплексную задачу на серию более простых, легко поддающихся обучению изолированных функций. Например, детектировать сиамскую кошку проще в два этапа: (1) Найти кошку на кадре, (2) Передать вырезанный фрагмент классификатору пород.</p>
+<div class="img-container">
+    <img src="extracted_images_part2/img_p99_Im0.png" style="max-width: 50%;">
+</div>
+<div class="img-container">
+    <img src="extracted_images_part2/img_p100_Im0.png">
+</div>
+
+<div class="chapter-title"><div class="chapter-num">Глава 52</div>Directly learning rich outputs / Прямое обучение сложным комплексным выходам</div>
+<p>Современные глубокие архитектуры способны выдавать на выходе не просто одно число, а богатые структурированные объекты: целые текстовые описания к картинкам, аудиопотоки (TTS) или готовые переводы предложений.</p>
+<div class="img-container">
+    <img src="extracted_images_part2/img_p102_Im0.png">
+</div>
+<table>
+    <thead>
+        <tr>
+            <th>Задача</th>
+            <th>Вход (X)</th>
+            <th>Выход (Y)</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Генерация описаний</td>
+            <td>Изображение</td>
+            <td>Текст описания</td>
+        </tr>
+        <tr>
+            <td>Машинный перевод</td>
+            <td>Текст на английском</td>
+            <td>Текст на французском</td>
+        </tr>
+        <tr>
+            <td>Распознавание речи</td>
+            <td>Аудиозапись</td>
+            <td>Текстовый транскрипт</td>
+        </tr>
+    </tbody>
+</table>
+
+<div class="section-header">
+    <h2>Error analysis by parts<br>Покомпонентный анализ ошибок пайплайна</h2>
+</div>
+
+<div class="chapter-title"><div class="chapter-num">Глава 53</div>Error analysis by parts / Анализ ошибок по частям системы</div>
+<p>В многокомпонентном пайплайне детектора сиамских кошек мы можем точно установить, какой модуль подвел систему на ошибочном примере: детектор кошек (вырезал пустые камни) или классификатор пород.</p>
+<div class="img-container">
+    <img src="extracted_images_part2/img_p106_Im0.png">
+</div>
+<div class="img-container">
+    <img src="extracted_images_part2/img_p106_Im1.png">
+</div>
+
+<div class="chapter-title"><div class="chapter-num">Глава 54</div>Attributing error to one part / Точное приписывание вины конкретному модулю</div>
+<p>Если на вход классификатора пород пришел некачественно обрезанный снимок, проведите эксперимент: подставьте вместо выхода детектора идеальную рамку, размеченную вручную человеком. Если классификатор теперь выдал верный ответ — вина полностью лежит на детекторе.</p>
+<div class="img-container">
+    <img src="extracted_images_part2/img_p107_Im2.png">
+</div>
+
+<div class="chapter-title"><div class="chapter-num">Глава 55</div>General case of error attribution / Общий случай покомпонентного анализа ошибок</div>
+<p>Для последовательного пайплайна <span class="math">A 
+ightarrow B 
+ightarrow C</span> мы поочередно заменяем выходы модулей на эталонные человеческие метки. Первый модуль, при замене выхода которого итоговая система начинает работать идеально, объявляется основным источником ошибки.</p>
+<div class="img-container">
+    <img src="extracted_images_part2/img_p109_Im1.png">
+</div>
+
+<div class="chapter-title"><div class="chapter-num">Глава 56</div>Error analysis by parts and comparison to human-level performance / Сравнение компонентов с человеческим уровнем</div>
+<p>Измерьте, насколько далеко качество работы каждого отдельного изолированного модуля (например, детектора пешеходов) находится от аналогичного человеческого показателя. Инвестируйте время инженеров в тот модуль, у которого отставание от человека максимально.</p>
+<div class="img-container">
+    <img src="extracted_images_part2/img_p111_Im1.png">
+</div>
+
+<div class="chapter-title"><div class="chapter-num">Глава 57</div>Spotting a flawed ML pipeline / Как обнаружить фундаментальные дефекты архитектуры пайплайна</div>
+<p>Если каждый отдельный компонент вашего беспилотника (детектор машин, пешеходов, разметки) работает на уровне человека, но машина при этом водит крайне плохо — значит, сама структура вашего пайплайна дефектна. Входных признаков недостаточно, и планировщику траектории, например, критически не хватает данных о дорожных знаках или сигналах светофора. Пайплайн требует редизайна.</p>
+<div class="img-container">
+    <img src="extracted_images_part2/img_p115_Im0.png">
+</div>
+
+<div class="chapter-title"><div class="chapter-num">Глава 58</div>Building a superhero team / Построение команды супергероев</div>
+<p>Поздравляю вас с завершением этой книги! Самое лучшее после того, как вы сами научились безошибочно определять стратегию развития ИИ-проектов — поделиться этими краткими главами со своими коллегами, создав настоящую сплоченную команду супергероев машинного обучения.</p>
+<div class="img-container">
+    <img src="extracted_images_part2/img_p118_Im0.png">
+</div>
+
+</body>
+</html>
