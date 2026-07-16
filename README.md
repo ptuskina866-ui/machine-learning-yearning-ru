@@ -10,7 +10,7 @@
 
 Для вашего удобства книга доступна в двух форматах:
 
-*   **[Читать или Скачать PDF](https://github.com/ptuskina866-ui/machine-learning-yearning-ru/blob/main/machine-learning-yearning-ru.pdf)** — Версия в формате PDF со всеми оригинальными графиками, таблицами и схемами, полностью готовая для печати и чтения на любых устройствах.
+*   **[Читать или Скачать PDF](https://github.com/ptuskina866-ui/machine-learning-yearning-ru/blob/main/machine-learning-yearning-ru.pdf?raw=true)** — Версия в формате PDF со всеми оригинальными графиками, таблицами и схемами, полностью готовая для печати и чтения на любых устройствах.
 *   **[Исходный HTML-код верстки](https://github.com/ptuskina866-ui/machine-learning-yearning-ru/main/machine-learning-yearning-ru.html)** — Веб-код книги для тех, кто хочет изучить структуру или запустить её локально.
 
 ---
